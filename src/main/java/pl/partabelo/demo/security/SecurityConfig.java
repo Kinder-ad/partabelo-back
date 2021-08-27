@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.authorizeRequests()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
+                .antMatchers("/api/user/make-admin/**").hasAnyRole(Role.USER.name())
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())

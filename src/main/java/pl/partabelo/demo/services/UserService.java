@@ -60,11 +60,13 @@ public class UserService implements IUserService{
 
     @Override
     public void makeAdmin(String email) {
+        System.out.println(email);
         this.userRepository.changeRoleUser(email, Role.ADMIN);
     }
 
     @Override
     public void makeMod(String email) {
+        System.out.println(email);
         this.userRepository.changeRoleUser(email, Role.MOD);
     }
 
