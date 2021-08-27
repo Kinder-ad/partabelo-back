@@ -1,0 +1,8 @@
+{
+  "name": "partabelo-back",
+  "buildpacks": [
+    {
+      "url": "heroku/maven"
+    }
+  ]
+}
