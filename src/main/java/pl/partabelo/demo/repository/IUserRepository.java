@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import pl.partabelo.demo.model.Role;
 import pl.partabelo.demo.model.User;
 
@@ -22,6 +21,11 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     void deleteUserByEmail(String email);
 
     List<User> findAllByOrderByIdAsc();
+
+    @Transactional
+    @Modifying
+    @Query("update User u set u.firstName = ?1, u.lastName = ?2, u.email = ?3, u.role = ?4, u.isPaid = ?5 where u.id = ?6")
+    void updateUser(String firstName, String lastName, String email, Role role, boolean paid, Long id);
 
     @Modifying
     @Transactional

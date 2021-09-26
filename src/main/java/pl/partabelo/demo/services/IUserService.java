@@ -9,6 +9,8 @@ public interface IUserService {
 
     User saveUser(User user);
 
+    void updateUser(User user);
+
     List<User> getUsers();
 
     void deleteUserByEmail(String email);

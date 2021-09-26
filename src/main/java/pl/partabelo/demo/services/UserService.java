@@ -22,24 +22,17 @@ public class UserService implements IUserService{
 
     @Override
     public User saveUser(User user) {
-        if(userRepository.findByEmail(user.getEmail()).isEmpty()){
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(Role.USER);
-            user.setPaid(false);
-            user.setCreateTime(LocalDateTime.now());
-            return this.userRepository.save(user);
-        }else{
-            User userFind = userRepository.findByEmail(user.getEmail()).get();
-            User userToSend = User.builder()
-                    .id(userFind.getId())
-                    .createTime(userFind.getCreateTime())
-                    .email(userFind.getEmail())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .password(userFind.getPassword())
-                    .role(userFind.getRole()).build();
-                  return  this.userRepository.save(userToSend);
-        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
+        user.setPaid(false);
+        user.setCreateTime(LocalDateTime.now());
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        System.out.println(user.isPaid());
+        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.getId());
     }
 
     @Override

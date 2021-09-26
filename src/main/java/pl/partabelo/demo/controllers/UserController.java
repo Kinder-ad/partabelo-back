@@ -25,7 +25,9 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
-        return new ResponseEntity<>(this.userService.saveUser(user), HttpStatus.CREATED);
+        System.out.println(user.toString());
+        this.userService.updateUser(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("{userId}")
@@ -44,5 +46,7 @@ public class UserController {
         this.userService.makeMod(username);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }

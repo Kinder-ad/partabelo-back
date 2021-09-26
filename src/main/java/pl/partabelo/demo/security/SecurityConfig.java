@@ -32,6 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/noFilter/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable();
@@ -39,7 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.authorizeRequests()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
-                .antMatchers("/api/user/make-admin/**").hasAnyRole(Role.USER.name())
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
@@ -48,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Override
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
