@@ -1,5 +1,5 @@
 {
-  "name": "partabelo-back",
+  "name": "Partabelo-back",
   "buildpacks": [
     {
       "url": "heroku/maven"
