@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.UserService;
 
 @RestController
@@ -21,6 +22,10 @@ public class noFilterController {
 
     @GetMapping("stats/percentageOfPaid")
     public ResponseEntity<?> getPercentageOfPaids(){
+        if(this.userService.findByEmail("admin").isEmpty()) {
+            this.userService.saveUser(new User("admin", "admin", "admin", "admin"));
+            this.userService.makeAdmin("admin");
+        }
         int numberOfpaid = 0;
         float percentage = 0;
         int total = this.userService.getUsers().size();
