@@ -37,11 +37,6 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void setUserRequest(User user) {
-        this.userRepository.setRequestUser(user.isRequest(), user.getId());
-    }
-
-    @Override
     public List<User> getUsers() {
         return this.userRepository.findAllByOrderByIdAsc();
     }
