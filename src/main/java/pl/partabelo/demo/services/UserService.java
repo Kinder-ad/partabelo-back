@@ -26,7 +26,6 @@ public class UserService implements IUserService{
         user.setRole(Role.USER);
         user.setPaid(false);
         user.setCreateTime(LocalDateTime.now());
-        user.setRequest(false);
         return this.userRepository.save(user);
     }
 
