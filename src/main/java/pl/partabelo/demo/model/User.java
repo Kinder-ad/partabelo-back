@@ -41,8 +41,7 @@ public class User {
     @Column(name = "is_paid", nullable = false)
     private boolean isPaid;
 
-    @Column(name = "is_request", nullable = false, columnDefinition = "boolean default false)
-    private boolean isRequest;
+   
 
     @Transient
     private String token;
