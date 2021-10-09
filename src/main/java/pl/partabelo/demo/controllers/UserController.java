@@ -36,17 +36,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("make-admin/{username}")
-    public ResponseEntity<?> makeAdmin(@PathVariable String username){
-        this.userService.makeAdmin(username);
+    @PatchMapping("/request")
+    public ResponseEntity<?> setRequest(@RequestBody User user){
+        this.userService.setUserRequest(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping("make-mod/{username}")
-    public ResponseEntity<?> makeMod(@PathVariable String username){
-        this.userService.makeMod(username);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
 
 }

@@ -11,17 +11,13 @@ public interface IUserService {
 
     void updateUser(User user);
 
+    void setUserRequest(User user);
+
     List<User> getUsers();
 
     void deleteUserByEmail(String email);
 
     void deleteUserById(Long id);
-
-    void makeAdmin(String email);
-
-    void makeMod(String email);
-
-    void makeUser(String email);
 
     Optional<User> findByEmail(String email);
 }

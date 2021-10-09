@@ -26,13 +26,19 @@ public class UserService implements IUserService{
         user.setRole(Role.USER);
         user.setPaid(false);
         user.setCreateTime(LocalDateTime.now());
+        user.setRequest(false);
         return this.userRepository.save(user);
     }
 
     @Override
     public void updateUser(User user) {
         System.out.println(user.isPaid());
-        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.getId());
+        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.isRequest(), user.getId());
+    }
+
+    @Override
+    public void setUserRequest(User user) {
+        this.userRepository.setRequestUser(user.isRequest(), user.getId());
     }
 
     @Override
@@ -50,26 +56,11 @@ public class UserService implements IUserService{
         this.userRepository.deleteUserById(id);
     }
 
-
-    @Override
-    public void makeAdmin(String email) {
-        System.out.println(email);
-        this.userRepository.changeRoleUser(email, Role.ADMIN);
-    }
-
-    @Override
-    public void makeMod(String email) {
-        System.out.println(email);
-        this.userRepository.changeRoleUser(email, Role.MOD);
-    }
-
-    @Override
-    public void makeUser(String email) {
-        this.userRepository.changeRoleUser(email, Role.USER);
-    }
-
     @Override
     public Optional<User> findByEmail(String email) {
         return this.userRepository.findByEmail(email);
     }
+
+
+
 }

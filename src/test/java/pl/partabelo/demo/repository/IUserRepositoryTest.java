@@ -57,10 +57,6 @@ class IUserRepositoryTest {
 
     @Test
     public void test(){
-        userService.makeMod("schila@onet.eu");
-        System.out.println(userService.findByEmail("schila@onet.eu"));
-        userService.makeUser("schila@onet.eu");
-        System.out.println(userService.findByEmail("schila@onet.eu"));
     }
     @Test
     public void deleteUseR(){

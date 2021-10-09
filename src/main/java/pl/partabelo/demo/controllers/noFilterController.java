@@ -22,10 +22,6 @@ public class noFilterController {
 
     @GetMapping("stats/percentageOfPaid")
     public ResponseEntity<?> getPercentageOfPaids(){
-        if(this.userService.findByEmail("admin").isEmpty()) {
-            this.userService.saveUser(new User("admin", "admin", "admin", "admin"));
-        }
-        this.userService.makeAdmin("admin");
         int numberOfpaid = 0;
         float percentage = 0;
         int total = this.userService.getUsers().size();
@@ -34,8 +30,6 @@ public class noFilterController {
                 numberOfpaid+=1;
             }
             percentage =  (numberOfpaid*100)/total;
-            System.out.println(numberOfpaid+" numberOfpaid");
-            System.out.println((numberOfpaid*100)/total);
         }
         return new ResponseEntity<>(percentage, HttpStatus.OK);
     }

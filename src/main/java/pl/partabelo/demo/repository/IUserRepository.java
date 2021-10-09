@@ -24,8 +24,14 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("update User u set u.firstName = ?1, u.lastName = ?2, u.email = ?3, u.role = ?4, u.isPaid = ?5 where u.id = ?6")
-    void updateUser(String firstName, String lastName, String email, Role role, boolean paid, Long id);
+    @Query("update User u set u.firstName = ?1, u.lastName = ?2, u.email = ?3, u.role = ?4, u.isPaid = ?5, u.isRequest = ?6 where u.id = ?7")
+    void updateUser(String firstName, String lastName, String email, Role role, boolean paid, boolean isRequest, Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update User u set u.isRequest = ?1 where u.id = ?2")
+    void setRequestUser(boolean isRequest, Long id);
+
 
     @Modifying
     @Transactional
@@ -34,4 +40,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     void deleteUserById(Long id);
+
+
 }
