@@ -26,13 +26,19 @@ public class UserService implements IUserService{
         user.setRole(Role.USER);
         user.setPaid(false);
         user.setCreateTime(LocalDateTime.now());
+        user.setRequest(false);
         return this.userRepository.save(user);
     }
 
     @Override
     public void updateUser(User user) {
         System.out.println(user.isPaid());
-        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.getId());
+        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.isRequest(), user.getId());
+    }
+
+    @Override
+    public void setUserRequest(User user) {
+        this.userRepository.setRequestUser(user.isRequest(), user.getId());
     }
 
     @Override

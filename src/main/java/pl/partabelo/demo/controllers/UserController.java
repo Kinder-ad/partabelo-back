@@ -36,7 +36,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-  
+    @PatchMapping("/request")
+    public ResponseEntity<?> setRequest(@RequestBody User user){
+        System.out.println(user);
+        this.userService.setUserRequest(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }

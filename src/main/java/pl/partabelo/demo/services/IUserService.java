@@ -11,6 +11,7 @@ public interface IUserService {
 
     void updateUser(User user);
 
+    void setUserRequest(User user);
 
     List<User> getUsers();
 
