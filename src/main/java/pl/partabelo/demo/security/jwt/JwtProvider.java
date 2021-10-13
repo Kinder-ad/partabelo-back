@@ -54,7 +54,6 @@ public class JwtProvider implements IJwtProvider{
         if(claims == null){
             return null;
         }
-        System.out.println("57:claims"+ claims.toString());
 
         String email = claims.getSubject();
         Long userId = claims.get("userId", Long.class);
@@ -63,7 +62,6 @@ public class JwtProvider implements IJwtProvider{
                 .map(SecurityUtils::convertToAuthority)
                 .collect(Collectors.toSet());
 
-        System.out.println("authroities 65L"+Arrays.toString(authorities.toArray()));
 
         UserDetails userDetails = UserPrincipal.builder()
                 .email(email)
