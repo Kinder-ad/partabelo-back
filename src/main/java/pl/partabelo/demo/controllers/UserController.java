@@ -33,7 +33,7 @@ public class UserController {
         if (principal.getName().equals("mod")
                 && !this.userService.findByEmail(user.getEmail()).get().getRole().toString().equalsIgnoreCase(user.getRole().toString())
         ){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
 
