@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.model.Expenditure;
-import pl.partabelo.demo.repository.IExpenditureRepository;
 import pl.partabelo.demo.services.IExpenditureService;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("api/expenditure")

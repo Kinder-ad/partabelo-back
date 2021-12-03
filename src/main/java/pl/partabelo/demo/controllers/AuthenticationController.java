@@ -12,6 +12,7 @@ import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.IAuthenticationService;
 import pl.partabelo.demo.services.IUserService;
 
+@Controller
 @RestController
 @RequestMapping("/api/authentication")
 public class AuthenticationController {

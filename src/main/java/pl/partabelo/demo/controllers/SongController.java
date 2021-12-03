@@ -1,16 +1,11 @@
 package pl.partabelo.demo.controllers;
 
-import com.wrapper.spotify.SpotifyApi;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
 import pl.partabelo.demo.services.*;
-
-import java.security.Principal;
 
 @Controller
 @RestController
