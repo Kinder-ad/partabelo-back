@@ -30,6 +30,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getRequestURI().startsWith("/api/noFilter/stats/percentageOfPaid");
+        String a = "/api/noFilter/stats/percentageOfPaid";
+        if(request.getRequestURI().startsWith("/api/spotify/song/current")) a = "/api/spotify/song/current";
+        if(request.getRequestURI().startsWith("/api/spotify/queue")) a = "/api/spotify/queue";
+        return request.getRequestURI().startsWith(a);
     }
 }

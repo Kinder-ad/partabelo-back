@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
 import pl.partabelo.demo.services.*;
 
+import java.security.Principal;
+
 @Controller
 @RestController
-@RequestMapping("/spotify")
+@RequestMapping("api/spotify")
 public class SongController {
 
     final
@@ -18,26 +20,19 @@ public class SongController {
     final
     PlaylistService playlistService;
 
-    final
-    SpotifyApiService spotifyApiService;
+
 
     final
     QueueService queueService;
 
 
-    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, SpotifyApiService spotifyApiService, QueueService queueService) {
+    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, QueueService queueService) {
         this.currentTrackService = currentTrackService;
         this.playlistService = playlistService;
-        this.spotifyApiService = spotifyApiService;
         this.queueService = queueService;
     }
 
-    @GetMapping("/authorize")
-    public void getToken(){
-        this.spotifyApiService.setJwtAuto();
 
-
-    }
 
     @GetMapping("/song/current")
     public ResponseEntity<?> getCurrentTrack() {
@@ -56,7 +51,6 @@ public class SongController {
 
     @PostMapping("/song")
     public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackJson trackJson) {
-        System.out.println(this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson));
         if (this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson)) {
             this.queueService.addToLocalQueue(trackJson);
             return new ResponseEntity<>(HttpStatus.OK);

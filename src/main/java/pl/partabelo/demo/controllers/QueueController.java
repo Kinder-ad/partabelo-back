@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RestController
-@RequestMapping("/spotify")
+@RequestMapping("api/spotify")
 public class QueueController {
 
     final QueueService queueService;

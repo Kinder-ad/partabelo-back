@@ -35,18 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/api/noFilter/**")
-                .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**",
-                        "/authorize");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring()
+//                .antMatchers("/api/noFilter/**")
+//                .antMatchers("/api/spotify/song/current")
+//                .antMatchers("/api/spotify/queue");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -55,13 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
+                .antMatchers("/api/authentication/**").permitAll()
+                .antMatchers("/api/spotify/song/current").permitAll()
+                .antMatchers("/api/spotify/queue").permitAll()
+                .antMatchers("/api/noFilter/stats/percentageOfPaid").permitAll()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/user/request").hasAnyRole(Role.ADMIN.name(),Role.MOD.name(),Role.USER.name())
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
-                .antMatchers("/spotify/**").hasAnyRole(Role.ADMIN.name())
-                .antMatchers("/api/authentication/**").permitAll()
+                .antMatchers("/api/spotify/**").hasAnyRole(Role.ADMIN.name())
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -4,24 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.IAuthenticationService;
 import pl.partabelo.demo.services.IUserService;
+import pl.partabelo.demo.services.SpotifyApiService;
 
 @Controller
 @RestController
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
 
-    @Autowired
-    private IAuthenticationService authenticationService;
+    private final SpotifyApiService spotifyApiService;
+    private final IAuthenticationService authenticationService;
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
+
+    public AuthenticationController(SpotifyApiService spotifyApiService, IAuthenticationService authenticationService, IUserService userService) {
+        this.spotifyApiService = spotifyApiService;
+        this.authenticationService = authenticationService;
+        this.userService = userService;
+    }
 
     @PostMapping("sign-up")
     public ResponseEntity<User> signUp(@RequestBody User user){
@@ -34,6 +37,11 @@ public class AuthenticationController {
     @PostMapping("sign-in")
     public ResponseEntity<?> signIn(@RequestBody User user){
         return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
+    }
+    @GetMapping("/spotify")
+    public ResponseEntity<?> getToken(){
+        this.spotifyApiService.setJwtAuto();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
