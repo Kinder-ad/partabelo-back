@@ -2,9 +2,11 @@ package pl.partabelo.demo.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
+import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
+import pl.partabelo.demo.model.Role;
+import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.QueueService;
 import org.springframework.stereotype.Controller;
 
@@ -22,5 +24,10 @@ public class QueueController {
     @GetMapping("/queue")
     public ResponseEntity<?> getQueue() {
         return new ResponseEntity<>(this.queueService.getLocalQueue(), HttpStatus.OK);
+    }
+    @DeleteMapping("/queue/{id}")
+    public ResponseEntity<?> deleteIdQueue(@PathVariable Long id){
+        this.queueService.deleteTrackIdFromQueue(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

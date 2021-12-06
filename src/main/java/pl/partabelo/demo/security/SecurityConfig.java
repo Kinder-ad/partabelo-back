@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -59,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
+                .antMatchers(HttpMethod.POST,"/api/spotify/song").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
                 .antMatchers("/api/spotify/**").hasAnyRole(Role.ADMIN.name())
                 .anyRequest().authenticated();
 

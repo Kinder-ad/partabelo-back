@@ -4,7 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
 import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
+import pl.partabelo.demo.model.Role;
+import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.*;
 
 import java.security.Principal;
@@ -50,8 +53,9 @@ public class SongController {
     }
 
     @PostMapping("/song")
-    public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackJson trackJson) {
-        if (this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson)) {
+    public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackInQueue trackJson) {
+
+        if (this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson.getTrackJson())) {
             this.queueService.addToLocalQueue(trackJson);
             return new ResponseEntity<>(HttpStatus.OK);
         }else{

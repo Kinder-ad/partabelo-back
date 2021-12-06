@@ -1,6 +1,7 @@
 package pl.partabelo.demo.services;
 
 import pl.partabelo.demo.Models.CurrentTruckModels.CurrentTrackSimpler;
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
 import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
 import pl.partabelo.demo.repository.QueueRepository;
 import org.springframework.http.HttpMethod;
@@ -40,7 +41,7 @@ public class QueueService {
 //              Check if there are 10 seconds left to the end of the music
                 if (this.checkIfTenSecondToEnd()) {
                     this.date = LocalTime.now().plusSeconds(15);
-                    addSongToSpotifyQueue(this.queueRepository.getLocalQueue().get(0));
+                    addSongToSpotifyQueue(this.queueRepository.getLocalQueue().get(0).getTrackJson());
                     this.queueRepository.removeFirstElementFromQueue();
                 }
             }
@@ -67,14 +68,14 @@ public class QueueService {
         else return false;
     }
 
-    public void addToLocalQueue(TrackJson trackJson) {
-        if (checkIfNotInLocalQueueAndInLimit(trackJson)) {
+    public void addToLocalQueue(TrackInQueue trackJson) {
+        if (checkIfNotInLocalQueueAndInLimit(trackJson.getTrackJson())) {
             this.queueRepository.addTrackToLocalQueue(trackJson);
         }
     }
 
     public boolean checkIfNotInLocalQueueAndInLimit(TrackJson trackJson) {
-        if (this.queueRepository.getLocalQueue().stream().noneMatch((o) -> o.getName().equals(trackJson.getName()))
+        if (this.queueRepository.getLocalQueue().stream().noneMatch((o) -> o.getTrackJson().getName().equals(trackJson.getName()))
                 && this.queueRepository.getLocalQueue().size() < 10) {
             return true;
         } else {
@@ -86,7 +87,10 @@ public class QueueService {
     //Getters and Setters
 
 
-    public List<TrackJson> getLocalQueue() {
+    public List<TrackInQueue> getLocalQueue() {
         return this.queueRepository.getLocalQueue();
+    }
+    public void deleteTrackIdFromQueue(Long id){
+        this.queueRepository.deleteById(id);
     }
 }
