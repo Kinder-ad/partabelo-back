@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = this.userService.findByEmail(email)
+        User user = this.userService.findByUsername(email)
                 .orElseThrow(()-> new UsernameNotFoundException(email));
 
         Set<GrantedAuthority> authorities = Set.of(SecurityUtils.convertToAuthority(user.getRole().name()));
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return UserPrincipal.builder()
                 .user(user)
                 .id(user.getId())
-                .email(email)
+                .username(email)
                 .password(user.getPassword())
                 .authorities(authorities)
                 .build();

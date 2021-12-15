@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers("/api/spotify/song/current").permitAll()
-                .antMatchers("/api/spotify/queue").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/spotify/queue").permitAll()
                 .antMatchers("/api/noFilter/stats/percentageOfPaid").permitAll()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/user/request").hasAnyRole(Role.ADMIN.name(),Role.MOD.name(),Role.USER.name())

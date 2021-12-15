@@ -20,8 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -47,8 +47,8 @@ public class User {
     @Transient
     private String token;
 
-    public User(String email, String firstName, String lastName, String password) {
-        this.email = email;
+    public User(String username, String firstName, String lastName, String password) {
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

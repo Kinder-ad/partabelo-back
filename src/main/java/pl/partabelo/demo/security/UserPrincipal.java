@@ -18,7 +18,7 @@ import java.util.Set;
 public class UserPrincipal implements UserDetails {
 
     private Long id;
-    private String email;
+    private String username;
     transient private String password;
     transient private User user;
     private Set<GrantedAuthority> authorities;
@@ -35,7 +35,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override

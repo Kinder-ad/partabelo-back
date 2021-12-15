@@ -33,7 +33,7 @@ public class JwtProvider implements IJwtProvider{
                 .collect(Collectors.joining());
 
         System.out.println(Jwts.builder()
-                .setSubject(auth.getEmail())
+                .setSubject(auth.getUsername())
                 .claim("roles",authorities)
                 .claim("userId", auth.getId())
                 .setExpiration(new Date(System.currentTimeMillis()+JWT_EXPIRATION_IN_MS))
@@ -41,7 +41,7 @@ public class JwtProvider implements IJwtProvider{
                 .compact());
 
         return Jwts.builder()
-                .setSubject(auth.getEmail())
+                .setSubject(auth.getUsername())
                 .claim("roles",authorities)
                 .claim("userId", auth.getId())
                 .setExpiration(new Date(System.currentTimeMillis()+JWT_EXPIRATION_IN_MS))
@@ -55,7 +55,7 @@ public class JwtProvider implements IJwtProvider{
             return null;
         }
 
-        String email = claims.getSubject();
+        String username = claims.getSubject();
         Long userId = claims.get("userId", Long.class);
 
         Set<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
@@ -64,11 +64,11 @@ public class JwtProvider implements IJwtProvider{
 
 
         UserDetails userDetails = UserPrincipal.builder()
-                .email(email)
+                .username(username)
                 .authorities(authorities)
                 .id(userId)
                 .build();
-        if(email == null){
+        if(username == null){
             return null;
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);

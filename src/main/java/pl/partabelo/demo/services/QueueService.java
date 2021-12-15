@@ -22,7 +22,6 @@ public class QueueService {
     QueueRepository queueRepository;
 
     private LocalTime date = LocalTime.now();
-    private int a;
 
 
     public QueueService(SpotifyApiService spotifyApiService, CurrentTrackService currentTrackService, QueueRepository queueRepository) {
@@ -90,7 +89,7 @@ public class QueueService {
     public List<TrackInQueue> getLocalQueue() {
         return this.queueRepository.getLocalQueue();
     }
-    public void deleteTrackIdFromQueue(Long id){
-        this.queueRepository.deleteById(id);
+    public void deleteTrackByUriFromQueue(String uri){
+        this.queueRepository.deleteByUri(uri);
     }
 }

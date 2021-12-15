@@ -16,7 +16,6 @@ public class CurrentTrackService {
 
     @Scheduled(fixedDelay = 3000)
     private void setCurrentTrack() {
-
         if (this.spotifyApiService.getJwt() == null) return;
         CurrentTrack a = spotifyApiService.templator("https://api.spotify.com/v1/me/player/currently-playing?market=ES", HttpMethod.GET, CurrentTrack.class);
         if(a==null) return;

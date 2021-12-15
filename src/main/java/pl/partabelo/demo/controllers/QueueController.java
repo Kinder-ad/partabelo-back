@@ -25,9 +25,9 @@ public class QueueController {
     public ResponseEntity<?> getQueue() {
         return new ResponseEntity<>(this.queueService.getLocalQueue(), HttpStatus.OK);
     }
-    @DeleteMapping("/queue/{id}")
-    public ResponseEntity<?> deleteIdQueue(@PathVariable Long id){
-        this.queueService.deleteTrackIdFromQueue(id);
+    @DeleteMapping("/queue/{uri}")
+    public ResponseEntity<?> deleteIdQueue(@PathVariable String uri){
+        this.queueService.deleteTrackByUriFromQueue(uri);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

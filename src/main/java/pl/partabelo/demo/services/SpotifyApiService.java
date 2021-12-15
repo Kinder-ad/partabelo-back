@@ -26,7 +26,7 @@ public class SpotifyApiService {
         return exchange.getBody();
     }
     public void setJwtAuto(){
-        AuthorizationCodeRefreshExample.authorizationCodeRefresh_Sync();
+        AuthorizationCodeRefreshExample.authorizationCodeRefresh_Async();
         this.jwt = AuthorizationCodeRefreshExample.spotifyApi.getAccessToken();
     }
 

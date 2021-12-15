@@ -15,17 +15,17 @@ import java.util.Optional;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
 
     @Transactional
-    void deleteUserByEmail(String email);
+    void deleteUserByUsername(String username);
 
     List<User> findAllByOrderByIdAsc();
 
     @Transactional
     @Modifying
-    @Query("update User u set u.firstName = ?1, u.lastName = ?2, u.email = ?3, u.role = ?4, u.isPaid = ?5, u.isRequest = ?6 where u.id = ?7")
-    void updateUser(String firstName, String lastName, String email, Role role, boolean paid, boolean isRequest, Long id);
+    @Query("update User u set u.firstName = ?1, u.lastName = ?2, u.username = ?3, u.role = ?4, u.isPaid = ?5, u.isRequest = ?6 where u.id = ?7")
+    void updateUser(String firstName, String lastName, String username, Role role, boolean paid, boolean isRequest, Long id);
 
     @Transactional
     @Modifying
@@ -35,8 +35,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query("update User set role= :role where email = :email")
-    void changeRoleUser(@Param("email") String email, @Param("role") Role role);
+    @Query("update User set role= :role where username = :username")
+    void changeRoleUser(@Param("username") String username, @Param("role") Role role);
 
     @Transactional
     void deleteUserById(Long id);

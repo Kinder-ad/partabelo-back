@@ -28,7 +28,7 @@ public class AuthenticationController {
 
     @PostMapping("sign-up")
     public ResponseEntity<User> signUp(@RequestBody User user){
-        if(userService.findByEmail(user.getEmail()).isPresent()){
+        if(userService.findByUsername(user.getUsername()).isPresent()){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
@@ -36,7 +36,9 @@ public class AuthenticationController {
 
     @PostMapping("sign-in")
     public ResponseEntity<?> signIn(@RequestBody User user){
-        return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
+        User userToSend = authenticationService.signInAndReturnJWT(user);
+        userToSend.setPassword(null);
+        return new ResponseEntity<>(userToSend, HttpStatus.OK);
     }
     @GetMapping("/spotify")
     public ResponseEntity<?> getToken(){

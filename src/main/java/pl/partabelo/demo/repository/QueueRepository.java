@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Repository
 public class QueueRepository {
@@ -27,7 +28,11 @@ public class QueueRepository {
         this.localQueue = localQueue;
     }
 
-    public void deleteById(Long id){
-        this.localQueue.remove(id);
+    public void deleteByUri(String uri) {
+        int index = IntStream.range(0, this.localQueue.size())
+                .filter(i -> this.localQueue.get(i).getTrackJson().getUri().equals(uri))
+                .findFirst()
+                .orElse(-1);
+        this.localQueue.remove(index);
     }
 }

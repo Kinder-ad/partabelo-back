@@ -26,7 +26,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody User user, Principal principal){
         //(security) MOD cant change ADMIN role
         if (principal.getName().equals("mod")
-                && !this.userService.findByEmail(user.getEmail()).get().getRole().toString().equalsIgnoreCase(user.getRole().toString())
+                && !this.userService.findByUsername(user.getUsername()).get().getRole().toString().equalsIgnoreCase(user.getRole().toString())
         ){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

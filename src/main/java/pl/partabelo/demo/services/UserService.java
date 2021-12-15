@@ -33,7 +33,7 @@ public class UserService implements IUserService{
     @Override
     public void updateUser(User user) {
         System.out.println(user.isPaid());
-        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.isPaid(), user.isRequest(), user.getId());
+        this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getUsername(),user.getRole(),user.isPaid(), user.isRequest(), user.getId());
     }
 
     @Override
@@ -47,8 +47,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void deleteUserByEmail(String email) {
-        this.userRepository.deleteUserByEmail(email);
+    public void deleteUserByUsername(String username) {
+        this.userRepository.deleteUserByUsername(username);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return this.userRepository.findByEmail(email);
+    public Optional<User> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 
 

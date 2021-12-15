@@ -2,17 +2,12 @@ package pl.partabelo.demo.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.IUserService;
-import pl.partabelo.demo.services.UserService;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class IUserRepositoryTest {
@@ -26,7 +21,7 @@ class IUserRepositoryTest {
         System.out.println(this.userService.getUsers());
 
         User student = User.builder()
-                .email("lucy@onet.eu")
+                .username("lucy@onet.eu")
                 .firstName("Lucy")
                 .lastName("Fornalik")
                 .password("123Lucy")
@@ -37,7 +32,7 @@ class IUserRepositoryTest {
     @Test
     public void updateUser(){
         System.out.println(this.userService.getUsers());
-        Optional<User> user = userService.findByEmail("schila@onet.eu");
+        Optional<User> user = userService.findByUsername("schila@onet.eu");
         user.get().setFirstName("Schilula");
         this.userService.saveUser(user.get());
         System.out.println(user.get().getPassword());
@@ -45,13 +40,13 @@ class IUserRepositoryTest {
     }
     @Test
     public void isPresentTest(){
-        System.out.println(this.userService.findByEmail("schila@onet.eu").isPresent());
+        System.out.println(this.userService.findByUsername("schila@onet.eu").isPresent());
 
-        System.out.println(this.userService.findByEmail("schila@onet.eu").isEmpty());
+        System.out.println(this.userService.findByUsername("schila@onet.eu").isEmpty());
 
-        System.out.println(this.userService.findByEmail("schilaa@onet.eu").isPresent());
+        System.out.println(this.userService.findByUsername("schilaa@onet.eu").isPresent());
 
-        System.out.println(this.userService.findByEmail("schilaa@onet.eu").isEmpty());
+        System.out.println(this.userService.findByUsername("schilaa@onet.eu").isEmpty());
     }
 
 
@@ -60,7 +55,7 @@ class IUserRepositoryTest {
     }
     @Test
     public void deleteUseR(){
-        userService.deleteUserByEmail("schila@onet.eu");
+        userService.deleteUserByUsername("schila@onet.eu");
         System.out.println(userService.getUsers());
     }
 
