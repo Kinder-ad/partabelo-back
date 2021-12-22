@@ -7,12 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import pl.partabelo.demo.Models.DeviceModel.DeviceToSend;
 
 @Service
 public class SpotifyApiService {
 
     private String jwt;
-    private String currentDevice = "8bf9ebb09ae56bea6ac31393315d97ef49581af5";
+    private DeviceToSend currentDevice = new DeviceToSend("8bf9ebb09ae56bea6ac31393315d97ef49581af5","iMac (Adrian)","Computer");
 
     public <T> T templator(String url, HttpMethod httpMethod, Class<T> classType) {
         RestTemplate restTemplate = new RestTemplate();
@@ -39,11 +40,11 @@ public class SpotifyApiService {
         this.jwt = jwt;
     }
 
-    public String getCurrentDevice() {
+    public DeviceToSend getCurrentDevice() {
         return currentDevice;
     }
 
-    public void setCurrentDevice(String currentDevice) {
+    public void setCurrentDevice(DeviceToSend currentDevice) {
         this.currentDevice = currentDevice;
     }
 

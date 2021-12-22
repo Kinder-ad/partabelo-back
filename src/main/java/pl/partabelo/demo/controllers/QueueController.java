@@ -30,4 +30,10 @@ public class QueueController {
         this.queueService.deleteTrackByUriFromQueue(uri);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/queue")
+    public ResponseEntity<?> clearQueue() {
+    this.queueService.clearQueue();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

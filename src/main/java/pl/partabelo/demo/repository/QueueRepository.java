@@ -35,4 +35,8 @@ public class QueueRepository {
                 .orElse(-1);
         this.localQueue.remove(index);
     }
+
+    public void clearQueue() {
+        this.localQueue = new ArrayList<>();
+    }
 }

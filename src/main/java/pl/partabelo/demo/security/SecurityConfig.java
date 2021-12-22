@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers(HttpMethod.POST,"/api/spotify/song").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
                 .antMatchers(HttpMethod.GET,"/api/spotify/song").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
+                .antMatchers("/api/spotify/device").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/spotify/**").hasAnyRole(Role.ADMIN.name())
                 .anyRequest().authenticated();
 

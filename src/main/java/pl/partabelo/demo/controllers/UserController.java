@@ -8,6 +8,8 @@ import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.UserService;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -19,7 +21,14 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> getUsers(){
-        return new ResponseEntity<>(this.userService.getUsers(), HttpStatus.OK);
+        List<User> users = new ArrayList<User>();
+        for (User user :
+                userService.getUsers()) {
+            user.setPassword(null);
+            users.add(user);
+        }
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping
@@ -28,6 +37,7 @@ public class UserController {
         if (principal.getName().equals("mod")
                 && !this.userService.findByUsername(user.getUsername()).get().getRole().toString().equalsIgnoreCase(user.getRole().toString())
         ){
+
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

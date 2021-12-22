@@ -51,7 +51,7 @@ public class QueueService {
 
     private void addSongToSpotifyQueue(TrackJson trackJson) {
         this.spotifyApiService.templator(
-                "https://api.spotify.com/v1/me/player/queue?uri=" + trackJson.getUri() + "&device_id=" + this.spotifyApiService.getCurrentDevice(),
+                "https://api.spotify.com/v1/me/player/queue?uri=" + trackJson.getUri() + "&device_id=" + this.spotifyApiService.getCurrentDevice().getId(),
                 HttpMethod.POST,
                 void.class
         );
@@ -91,5 +91,9 @@ public class QueueService {
     }
     public void deleteTrackByUriFromQueue(String uri){
         this.queueRepository.deleteByUri(uri);
+    }
+
+    public void clearQueue() {
+        this.queueRepository.clearQueue();
     }
 }

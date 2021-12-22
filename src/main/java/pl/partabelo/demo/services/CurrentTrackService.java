@@ -30,7 +30,7 @@ public class CurrentTrackService {
         this.currentTrack = currentTrack;
     }
     public void skipSong(){
-        this.spotifyApiService.templator("https://api.spotify.com/v1/me/player/next?device_id="+this.spotifyApiService.getCurrentDevice(), HttpMethod.POST,void.class);
+        this.spotifyApiService.templator("https://api.spotify.com/v1/me/player/next?device_id="+this.spotifyApiService.getCurrentDevice().getId(), HttpMethod.POST,void.class);
     }
 
 
