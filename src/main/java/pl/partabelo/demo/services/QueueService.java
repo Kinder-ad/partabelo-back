@@ -38,7 +38,7 @@ public class QueueService {
 //          Check if local queue isn't empty and time to wait has passed
             if (this.queueRepository.getLocalQueue().size() > 0 && this.date.isBefore(LocalTime.now())) {
 //              Check if there are 10 seconds left to the end of the music
-                if (this.checkIfTenSecondToEnd()) {
+                if (this.checkIfTwelveSecondToEnd()) {
                     this.date = LocalTime.now().plusSeconds(15);
                     addSongToSpotifyQueue(this.queueRepository.getLocalQueue().get(0).getTrackJson());
                     this.queueRepository.removeFirstElementFromQueue();
@@ -48,6 +48,21 @@ public class QueueService {
         }
     }
 
+    public void addFirstTrackFromLocalQueueToSpotifyQueue(){
+        this.date = LocalTime.now().plusSeconds(10);
+        if(this.queueRepository.getLocalQueue().size() == 0 ){
+            this.currentTrackService.skipSong();
+        }else {
+
+            this.spotifyApiService.templator(
+                    "https://api.spotify.com/v1/me/player/queue?uri=" + this.queueRepository.getLocalQueue().get(0).getTrackJson().getUri() + "&device_id=" + this.spotifyApiService.getCurrentDevice().getId(),
+                    HttpMethod.POST,
+                    void.class
+            );
+            this.currentTrackService.skipSong();
+            this.queueRepository.removeFirstElementFromQueue();
+        }
+    }
 
     private void addSongToSpotifyQueue(TrackJson trackJson) {
         this.spotifyApiService.templator(
@@ -57,15 +72,19 @@ public class QueueService {
         );
     }
 
-    private boolean checkIfTenSecondToEnd() {
+    public boolean checkIfTwelveSecondToEnd() {
         CurrentTrackSimpler currentTrack = this.currentTrackService.getCurrentTrack();
-//        System.out.print(currentTrack.getDurationMs() + " " + currentTrack.getProgressMs() + "=");
-//        System.out.print(currentTrack.getDurationMs() - currentTrack.getProgressMs() + "     | ");
-//        System.out.println(currentTrack.getDurationMs() - currentTrack.getProgressMs() < 12000);
         if (currentTrack == null) return true;
         if (currentTrack.getDurationMs() - currentTrack.getProgressMs() < 12000) return true;
         else return false;
     }
+    public boolean checkIfFifteenSecondToEnd() {
+        CurrentTrackSimpler currentTrack = this.currentTrackService.getCurrentTrack();
+        if (currentTrack == null) return true;
+        if (currentTrack.getDurationMs() - currentTrack.getProgressMs() < 15000) return true;
+        else return false;
+    }
+
 
     public void addToLocalQueue(TrackInQueue trackJson) {
         if (checkIfNotInLocalQueueAndInLimit(trackJson.getTrackJson())) {
@@ -95,5 +114,13 @@ public class QueueService {
 
     public void clearQueue() {
         this.queueRepository.clearQueue();
+    }
+
+    public LocalTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalTime date) {
+        this.date = date;
     }
 }

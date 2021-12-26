@@ -28,11 +28,15 @@ public class SongController {
     final
     QueueService queueService;
 
+    final
+    SkipService skipService;
 
-    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, QueueService queueService) {
+
+    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, QueueService queueService,   SkipService skipService) {
         this.currentTrackService = currentTrackService;
         this.playlistService = playlistService;
         this.queueService = queueService;
+        this.skipService = skipService;
     }
 
 
@@ -50,6 +54,27 @@ public class SongController {
     @GetMapping("/song/skip")
     public void skipSong() {
         this.currentTrackService.skipSong();
+    }
+
+    @PostMapping("/song/skipVote")
+    public  ResponseEntity<?> addSkipVote(){
+        var isAllow = this.skipService.addUserVote();
+
+        if(isAllow) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping("/song/skipVotes")
+    public ResponseEntity<?> getSkipVotes(){
+        return new ResponseEntity<>(this.skipService.getVoteCounter(),HttpStatus.OK);
+    }
+
+    @GetMapping("/song/limitOfVotes")
+    public ResponseEntity<?> getLimitOfVotes(){
+        return new ResponseEntity<>(this.skipService.getLimitOfVotes(),HttpStatus.OK);
     }
 
     @PostMapping("/song")
