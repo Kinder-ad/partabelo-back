@@ -58,8 +58,9 @@ public class SongController {
 
     @PostMapping("/song/skipVote")
     public  ResponseEntity<?> addSkipVote(){
+        System.out.println("asfasrfs");
         var isAllow = this.skipService.addUserVote();
-
+        System.out.println(isAllow);
         if(isAllow) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

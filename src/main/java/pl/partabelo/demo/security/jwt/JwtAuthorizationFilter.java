@@ -1,6 +1,7 @@
 package pl.partabelo.demo.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,7 +20,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
-
         Authentication authentication = jwtProvider.getAuthentication(httpServletRequest);
 
         if(authentication != null && jwtProvider.validateToken(httpServletRequest)){
@@ -30,9 +30,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+
         String a = "/api/noFilter/stats/percentageOfPaid";
         if(request.getRequestURI().startsWith("/api/spotify/song/current")) a = "/api/spotify/song/current";
         if(request.getRequestURI().startsWith("/api/spotify/queue") && request.getMethod().equals("GET")) a = "/api/spotify/queue";
+        if(request.getRequestURI().startsWith("/api/spotify/song/skipVotes") && request.getMethod().equals("GET")) a = "/api/spotify/song/skipVotes";
+        if(request.getRequestURI().startsWith("/api/spotify/song/limitOfVotes") && request.getMethod().equals("GET")) a = "/api/spotify/song/limitOfVotes";
         return request.getRequestURI().startsWith(a);
     }
 }

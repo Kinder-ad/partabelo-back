@@ -1,22 +1,22 @@
 package pl.partabelo.demo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.partabelo.demo.model.Role;
@@ -36,13 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring()
-//                .antMatchers("/api/noFilter/**")
-//                .antMatchers("/api/spotify/song/current")
-//                .antMatchers("/api/spotify/queue");
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -55,12 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/spotify/song/current").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/spotify/queue").permitAll()
                 .antMatchers("/api/noFilter/stats/percentageOfPaid").permitAll()
-                .antMatchers("/api/spotify/song/skipVote").permitAll()
+                .antMatchers("/api/spotify/song/skipVotes").permitAll()
+                .antMatchers("/api/spotify/song/limitOfVotes").permitAll()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/user/request").hasAnyRole(Role.ADMIN.name(),Role.MOD.name(),Role.USER.name())
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
+                .antMatchers(HttpMethod.POST,"/api/spotify/song/skipVote").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
                 .antMatchers(HttpMethod.POST,"/api/spotify/song").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
                 .antMatchers(HttpMethod.GET,"/api/spotify/song").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.MOD.name())
                 .antMatchers("/api/spotify/device").hasAnyRole(Role.ADMIN.name())
