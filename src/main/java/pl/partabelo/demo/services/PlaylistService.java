@@ -14,6 +14,7 @@ import java.util.List;
 public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final SpotifyApiService spotifyApiService;
+    private String playlistId = "4VXDNYeBdAHLY0AN4MSWQD";
 
     public PlaylistService(PlaylistRepository playlistRepository, SpotifyApiService spotifyApiService) {
         this.playlistRepository = playlistRepository;
@@ -28,7 +29,7 @@ public class PlaylistService {
         if (spotifyApiService.getJwt() == null) return;
             for (int i = 0; i < 6; i++) {
                 Tracks tracks = this.spotifyApiService.templator(
-                        "https://api.spotify.com/v1/playlists/3k0g9MivuMZJMpgO7eqXxU/tracks?market=ES&fields=items(track(name%2Curi%2Calbum(images(url)))))&limit=100&offset=" + i * 100,
+                        "https://api.spotify.com/v1/playlists/"+this.playlistId+"/tracks?market=ES&fields=items(track(name%2Curi%2Calbum(images(url)))))&limit=100&offset=" + i * 100,
                         HttpMethod.GET,
                         Tracks.class
                 );
