@@ -30,6 +30,7 @@ public class UserService implements IUserService{
         user.setPaid(false);
         user.setCreateTime(LocalDateTime.now());
         user.setRequest(false);
+        user.setUsername(user.getUsername().toLowerCase());
         return this.userRepository.save(user);
     }
 

@@ -28,7 +28,7 @@ public class AuthenticationController {
 
     @PostMapping("sign-up")
     public ResponseEntity<User> signUp(@RequestBody User user){
-        if(userService.findByUsername(user.getUsername()).isPresent()){
+        if(userService.findByUsername(user.getUsername().toLowerCase()).isPresent()){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
@@ -36,6 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("sign-in")
     public ResponseEntity<?> signIn(@RequestBody User user){
+        user.setUsername(user.getUsername().toLowerCase());
         User userToSend = authenticationService.signInAndReturnJWT(user);
         userToSend.setPassword(null);
         return new ResponseEntity<>(userToSend, HttpStatus.OK);
