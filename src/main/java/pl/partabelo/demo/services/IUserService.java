@@ -1,5 +1,7 @@
 package pl.partabelo.demo.services;
 
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
+import pl.partabelo.demo.model.TrackHistory;
 import pl.partabelo.demo.model.User;
 
 import java.util.List;
@@ -20,4 +22,10 @@ public interface IUserService {
     void deleteUserById(Long id);
 
     Optional<User> findByUsername(String username);
+
+    void addTrackToUserHistory(TrackInQueue trackInQueue);
+
+    List<TrackHistory> getTrackHistoryOfUser(Long userId);
+
+    User getUser(Long userId);
 }

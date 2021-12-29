@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.partabelo.demo.model.Role;
+import pl.partabelo.demo.model.TrackHistory;
 import pl.partabelo.demo.model.User;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User set role= :role where username = :username")
     void changeRoleUser(@Param("username") String username, @Param("role") Role role);
+
 
     @Transactional
     void deleteUserById(Long id);

@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/api/spotify/song/limitOfVotes").permitAll()
                 .antMatchers("/api/user").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/user/request").hasAnyRole(Role.ADMIN.name(),Role.MOD.name(),Role.USER.name())
+                .antMatchers("/api/user/track/*").hasAnyRole(Role.ADMIN.name(),Role.MOD.name(),Role.USER.name())
                 .antMatchers("/api/user/**").hasAnyRole(Role.ADMIN.name())
                 .antMatchers("/api/expenditure").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())
                 .antMatchers("/api/expenditure/**").hasAnyRole(Role.ADMIN.name(), Role.MOD.name())

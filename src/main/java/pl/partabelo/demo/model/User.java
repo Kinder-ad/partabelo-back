@@ -1,12 +1,12 @@
 package pl.partabelo.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class User {
 
     @Id
@@ -47,6 +48,9 @@ public class User {
     @Transient
     private String token;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<TrackHistory> tracks = new ArrayList<>();
+
     public User(String username, String firstName, String lastName, String password) {
         this.username = username;
         this.firstName = firstName;
@@ -54,9 +58,18 @@ public class User {
         this.password = password;
     }
 
-    public User(String firstName, String lastName, Role role) {
+    public User(String username, String firstName, String lastName, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+    }
+
+    public void addTrackToHistory(TrackHistory trackHistory){
+        this.tracks.add(trackHistory);
+    }
+
+
+    public void setRequest(Boolean aBoolean) {
+        this.isRequest = aBoolean;
     }
 }

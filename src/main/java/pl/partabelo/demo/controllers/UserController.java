@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
 import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.UserService;
 
@@ -59,5 +60,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/track")
+    public ResponseEntity<?> addTrackToUserHistory(@RequestBody TrackInQueue trackInQueue) {
+        this.userService.addTrackToUserHistory(trackInQueue);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable Long userId){
+        User user = this.userService.getUser(userId);
+        System.out.println(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/track/{userId}")
+    public ResponseEntity<?> getTrackHistory(@PathVariable Long userId){
+        return new ResponseEntity<>(this.userService.getTrackHistoryOfUser(userId), HttpStatus.OK);
+    }
 
 }

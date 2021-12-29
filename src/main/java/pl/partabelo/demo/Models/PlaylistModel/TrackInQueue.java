@@ -10,7 +10,7 @@ public class TrackInQueue implements Serializable {
 
     public TrackInQueue(TrackJson trackJson, User user) {
         this.trackJson = trackJson;
-        this.user = new User(user.getFirstName(),user.getLastName(), user.getRole());
+        this.user = user;
     }
 
     public TrackJson getTrackJson() {

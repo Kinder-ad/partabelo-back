@@ -3,11 +3,14 @@ package pl.partabelo.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
 import pl.partabelo.demo.model.Role;
+import pl.partabelo.demo.model.TrackHistory;
 import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.repository.IUserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +40,18 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public void addTrackToUserHistory(TrackInQueue trackInQueue) {
+        TrackHistory trackHistory = new TrackHistory(trackInQueue.getTrackJson().getName(),trackInQueue.getTrackJson().getUrl());
+        Optional<User> user = this.userRepository.findByUsername(trackInQueue.getUser().getUsername());
+        if(user.isPresent()){
+            user.get().addTrackToHistory(trackHistory);
+            this.userRepository.save(user.get());
+        }else{
+            System.out.println("Błąd");
+        }
+    }
+
+    @Override
     public void setUserRequest(User user) {
         this.userRepository.setRequestUser(user.isRequest(), user.getId());
     }
@@ -61,6 +76,18 @@ public class UserService implements IUserService{
         return this.userRepository.findByUsername(username);
     }
 
+    @Override
+    public List<TrackHistory> getTrackHistoryOfUser(Long userId) {
+        List<TrackHistory> tracks = this.userRepository.getById(userId).getTracks();
+        return tracks;
+    }
 
-
+    @Override
+    public User getUser(Long userId) {
+        User user = this.userRepository.findById(userId).get();
+        user.setId(null);
+        user.setPassword(null);
+        user.setToken(null);
+        return user;
+    }
 }

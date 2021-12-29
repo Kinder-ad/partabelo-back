@@ -5,12 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
-import pl.partabelo.demo.Models.PlaylistModel.TrackJson;
-import pl.partabelo.demo.model.Role;
-import pl.partabelo.demo.model.User;
 import pl.partabelo.demo.services.*;
-
-import java.security.Principal;
 
 @Controller
 @RestController
@@ -23,7 +18,8 @@ public class SongController {
     final
     PlaylistService playlistService;
 
-
+    final
+    UserService userService;
 
     final
     QueueService queueService;
@@ -32,9 +28,10 @@ public class SongController {
     SkipService skipService;
 
 
-    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, QueueService queueService,   SkipService skipService) {
+    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, UserService userService, QueueService queueService, SkipService skipService) {
         this.currentTrackService = currentTrackService;
         this.playlistService = playlistService;
+        this.userService = userService;
         this.queueService = queueService;
         this.skipService = skipService;
     }
@@ -80,9 +77,11 @@ public class SongController {
 
     @PostMapping("/song")
     public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackInQueue trackJson) {
-
         if (this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson.getTrackJson())) {
             this.queueService.addToLocalQueue(trackJson);
+
+            this.userService.addTrackToUserHistory(trackJson);
+
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.CONFLICT);
