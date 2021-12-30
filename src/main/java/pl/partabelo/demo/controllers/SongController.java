@@ -74,6 +74,12 @@ public class SongController {
     public ResponseEntity<?> getLimitOfVotes(){
         return new ResponseEntity<>(this.skipService.getLimitOfVotes(),HttpStatus.OK);
     }
+    @PutMapping("/song/changeLimit/{number}")
+    public ResponseEntity<?> changeLimit(@PathVariable("number") Integer newLimit){
+        this.skipService.clearVote();
+        this.skipService.setLimitOfVotes(newLimit);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/song")
     public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackInQueue trackJson) {
