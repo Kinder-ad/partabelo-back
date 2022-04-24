@@ -4,6 +4,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.partabelo.demo.Models.CurrentTruckModels.CurrentTrackSimpler;
 import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
+import pl.partabelo.demo.model.Role;
+import pl.partabelo.demo.model.User;
 
 @Service
 public class SkipService {
@@ -17,17 +19,21 @@ public class SkipService {
     }
 
 
-    public boolean addUserVote(){
-        System.out.println(this.voteCounter);
+    public boolean addUserVote(User user){
         if(!isTheSameTrackWhatVoted()) this.clearVote();
 
-        if(this.voteCounter+1 == limitOfVotes && !this.queueService.checkIfFifteenSecondToEnd()){
+        int votesToAdd = 1;
+        if(user.getRole() == Role.SUPERDJ){
+            votesToAdd = 2;
+        }
+
+        if(this.voteCounter+votesToAdd >= limitOfVotes && !this.queueService.checkIfFifteenSecondToEnd()){
             this.clearVote();
             this.queueService.addFirstTrackFromLocalQueueToSpotifyQueue();
             return true;
         }
         if(!this.queueService.checkIfFifteenSecondToEnd()){
-            this.voteCounter+=1;
+            this.voteCounter+=votesToAdd;
             return true;
         }else{
             this.clearVote();

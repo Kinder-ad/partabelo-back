@@ -3,5 +3,7 @@ package pl.partabelo.demo.model;
 public enum Role {
     USER,
     MOD,
-    ADMIN
+    ADMIN,
+    DJ,
+    SUPERDJ,
 }

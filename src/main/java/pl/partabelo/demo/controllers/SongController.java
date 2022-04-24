@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.partabelo.demo.Models.PlaylistModel.TrackInQueue;
+import pl.partabelo.demo.model.Test;
+import pl.partabelo.demo.model.User;
+import pl.partabelo.demo.repository.ISongRepository;
 import pl.partabelo.demo.services.*;
 
 @Controller
@@ -27,13 +30,16 @@ public class SongController {
     final
     SkipService skipService;
 
+    final ISongRepository iSongRepository;
 
-    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, UserService userService, QueueService queueService, SkipService skipService) {
+
+    public SongController(CurrentTrackService currentTrackService, PlaylistService playlistService, UserService userService, QueueService queueService, SkipService skipService, ISongRepository iSongRepository) {
         this.currentTrackService = currentTrackService;
         this.playlistService = playlistService;
         this.userService = userService;
         this.queueService = queueService;
         this.skipService = skipService;
+        this.iSongRepository = iSongRepository;
     }
 
 
@@ -54,10 +60,8 @@ public class SongController {
     }
 
     @PostMapping("/song/skipVote")
-    public  ResponseEntity<?> addSkipVote(){
-        System.out.println("asfasrfs");
-        var isAllow = this.skipService.addUserVote();
-        System.out.println(isAllow);
+    public  ResponseEntity<?> addSkipVote(@RequestBody User user){
+        var isAllow = this.skipService.addUserVote(user);
         if(isAllow) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -83,6 +87,7 @@ public class SongController {
 
     @PostMapping("/song")
     public ResponseEntity<?> addSongToSpotifyQueue(@RequestBody TrackInQueue trackJson) {
+        System.out.println(trackJson.toString());
         if (this.queueService.checkIfNotInLocalQueueAndInLimit(trackJson.getTrackJson())) {
             this.queueService.addToLocalQueue(trackJson);
 
@@ -94,5 +99,12 @@ public class SongController {
         }
     }
 
+    @GetMapping("/song/history")
+    public ResponseEntity<?> getHistoryAddedSong() {
+        Test track =  this.iSongRepository.getAll().get(0);
+        System.out.println(track.getUserName());
+        System.out.println(track.getTrackName());
+        return new ResponseEntity<>(this.iSongRepository.findAll(),HttpStatus.OK);
+    }
 
 }

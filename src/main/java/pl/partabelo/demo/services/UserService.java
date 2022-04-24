@@ -36,7 +36,7 @@ public class UserService implements IUserService{
 
     @Override
     public void updateUser(User user) {
-        System.out.println(user.isPaid());
+        System.out.println(user);
         this.userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getUsername(),user.getRole(),user.isPaid(), user.isRequest(), user.getId());
     }
 
